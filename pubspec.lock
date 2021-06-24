@@ -99,7 +99,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.5+4"
+    version: "0.8.0+4"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -155,7 +155,7 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.0"
+    version: "8.1.1"
   permission_handler_platform_interface:
     dependency: transitive
     description:
