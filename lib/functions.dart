@@ -1,45 +1,46 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-String api = 'http://demo.bingertech.com/';
+//* Paste Your API Here
+String api = 'http://demo.bingertech.com/'; // Add Your API Here
+
 String uploadAPI = '$api/uploadImage.php';
 String getAPI = '$api/getUserProfile.php';
 
+/*
+* This Function is trigger when you press register button
+* It provide the functionality to pick image from Gallery
+*/
 Future<String> pickImage() async {
-  PickedFile pickedFile;
-  File file;
-  ImagePicker imagePicker = ImagePicker();
+  // XFile is now recommended to use with ImagePicker
+  XFile? xfile;
 
-  await Permission.photos.request();
+  // This Line of Code will pick the image from your gallery
+  xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-  var permissionStatus = await Permission.photos.status;
+  //Our XFile variable is nullable so we've to check if we've picked the image or not
+  if (xfile != null) {
+    // Now we're converting our image into Uint8List
+    Uint8List bytes = await xfile.readAsBytes();
 
-  if (permissionStatus.isGranted) {
-    pickedFile = await imagePicker.getImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      file = File(pickedFile.path);
+    // Here we're converting our image to Base64
+    String encode = base64Encode(bytes);
 
-      String image = base64Encode(file.readAsBytesSync());
-      return image;
-    } else {
-      print('Pick Image First');
-      return 'Error';
-    }
+    // Returning Base64 Encoded Image
+    return encode;
   } else {
-    print('Give Permissions First');
+    print('Pick Image First');
     return 'Error';
   }
 }
 
 Future registration({
-  @required String username,
-  @required String fullname,
-  @required String password,
-  @required String image,
+  required String username,
+  required String fullname,
+  required String password,
+  required String image,
 }) async {
   try {
     final response = await http.post(
@@ -64,10 +65,12 @@ Future registration({
   }
 }
 
-Future getUserProfile({@required String username}) async {
+Future getUserProfile({required String username}) async {
   try {
-    final response =
-        await http.post(Uri.parse(getAPI), body: {'username': '$username'});
+    final response = await http.post(
+      Uri.parse(getAPI),
+      body: {'username': '$username'},
+    );
 
     if (response.statusCode == 200) {
       final result = json.decode(response.body);

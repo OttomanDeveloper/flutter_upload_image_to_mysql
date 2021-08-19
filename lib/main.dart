@@ -10,8 +10,6 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
-
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -47,9 +45,7 @@ class _MyAppState extends State<MyApp> {
                   localmage.isNotEmpty
                       ? CircleAvatar(
                           radius: 60,
-                          backgroundImage: MemoryImage(
-                            base64Decode(localmage),
-                          ),
+                          backgroundImage: MemoryImage(base64Decode(localmage)),
                         )
                       : CircleAvatar(
                           radius: 60,
@@ -138,17 +134,17 @@ class _MyAppState extends State<MyApp> {
   String name = '';
   String pass = '';
 
-  chooseImage() async {
+  void chooseImage() async {
     localmage = await pickImage();
     setState(() {});
-    if (localmage != 'Error') {
-      String status = await registration(
-        image: localmage,
-        password: password.text,
-        fullname: fullName.text,
-        username: username.text,
-      );
-      print(status);
-    }
+    // if (localmage != 'Error') {
+    //   String status = await registration(
+    //     image: localmage,
+    //     password: password.text,
+    //     fullname: fullName.text,
+    //     username: username.text,
+    //   );
+    //   print(status);
+    // }
   }
 }
