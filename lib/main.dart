@@ -1,15 +1,15 @@
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uploadimagetosql/functions.dart';
 
 void main() {
-  runApp(
-    MyApp(),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -28,12 +28,12 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Upload image By OttomanCoder',
           ),
         ),
         body: SafeArea(
-          child: Container(
+          child: SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: SingleChildScrollView(
@@ -41,35 +41,35 @@ class _MyAppState extends State<MyApp> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   localmage.isNotEmpty
                       ? CircleAvatar(
                           radius: 60,
                           backgroundImage: MemoryImage(base64Decode(localmage)),
                         )
-                      : CircleAvatar(
+                      : const CircleAvatar(
                           radius: 60,
                         ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         TextField(
                           controller: username,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter Username',
                           ),
                         ),
                         TextField(
                           controller: fullName,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter fullName',
                           ),
                         ),
                         TextField(
                           controller: password,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter passsword',
                           ),
                         ),
@@ -79,15 +79,16 @@ class _MyAppState extends State<MyApp> {
                   MaterialButton(
                     color: Colors.green,
                     onPressed: () => chooseImage(),
-                    child: Text('Register'),
+                    child: const Text('Register'),
                   ),
                   MaterialButton(
                     color: Colors.red,
                     onPressed: () async {
                       var profileData =
                           await getUserProfile(username: username.text);
-
-                      print(profileData);
+                      if (kDebugMode) {
+                        print(profileData);
+                      }
                       onlineImage = profileData[0]['image'];
                       user = profileData[0]['username'];
                       name = profileData[0]['fullName'];
@@ -95,29 +96,29 @@ class _MyAppState extends State<MyApp> {
 
                       setState(() {});
                     },
-                    child: Text('Get User Profile Data'),
+                    child: const Text('Get User Profile Data'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   onlineImage.isNotEmpty
                       ? Image.memory(base64Decode(onlineImage))
-                      : CircleAvatar(
+                      : const CircleAvatar(
                           radius: 60,
                         ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text('$user'),
-                  SizedBox(
+                  Text(user),
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text('$name'),
-                  SizedBox(
+                  Text(name),
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text('$pass'),
-                  SizedBox(
+                  Text(pass),
+                  const SizedBox(
                     height: 20,
                   ),
                 ],

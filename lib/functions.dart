@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
@@ -31,7 +32,9 @@ Future<String> pickImage() async {
     // Returning Base64 Encoded Image
     return encode;
   } else {
-    print('Pick Image First');
+    if (kDebugMode) {
+      print('Pick Image First');
+    }
     return 'Error';
   }
 }
@@ -46,10 +49,10 @@ Future registration({
     final response = await http.post(
       Uri.parse(uploadAPI),
       body: {
-        'image': '$image',
-        'username': '$username',
-        'password': '$password',
-        'fullName': '$fullname',
+        'image': image,
+        'username': username,
+        'password': password,
+        'fullName': fullname,
       },
     );
 
@@ -57,7 +60,9 @@ Future registration({
       final result = json.decode(response.body);
       return result;
     } else {
-      print('Error 1');
+      if (kDebugMode) {
+        print('Error 1');
+      }
       return 'Error';
     }
   } catch (e) {
@@ -69,14 +74,16 @@ Future getUserProfile({required String username}) async {
   try {
     final response = await http.post(
       Uri.parse(getAPI),
-      body: {'username': '$username'},
+      body: {'username': username},
     );
 
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       return result;
     } else {
-      print('Error 1');
+      if (kDebugMode) {
+        print('Error 1');
+      }
       return 'Error';
     }
   } catch (e) {
